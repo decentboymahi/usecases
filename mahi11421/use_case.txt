@@ -1,0 +1,1 @@
+This document describes the syntax, commands, flags, and arguments for bq, the BigQuery command-line tool. It is intended for users who are familiar with BigQuery, but want to know how to use a 
