@@ -1,0 +1,99 @@
+import os
+from datetime import datetime
+
+from airflow.models import DAG
+from airflow.providers.google.cloud.operators.bigquery import (BigQueryCreateEmptyDatasetOperator,BigQueryCreateEmptyTableOperator)
+from airflow.providers.google.cloud.operators.gcs import GCSCreateBucketOperator
+from airflow.providers.google.cloud.transfers.gcs_to_gcs import GCSToGCSOperator
+from airflow.providers.google.cloud.transfers.bigquery_to_gcs import BigQueryToGCSOperator
+from airflow.operators import bash_operator
+
+GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "mohan-mahi")
+DATASET_NAME = os.environ.get("GCP_BIGQUERY_DATASET_NAME", "mahi_emp_ds")
+GCS_BUCKET = os.environ.get("GCP_GCS_BUCKET","mahi_emp_buk")
+dataset_id="mahi_emp_ds"
+TABLE1 = "mahi_emp_stg_t"
+TABLE2 = "mahi_emp_his_t"
+
+dag=DAG(
+    "Sales_pipeline_gcp_operators",
+    schedule_interval=None,  
+    start_date=datetime(2022, 2, 14),
+    catchup=False,
+    tags=["Mahi"]
+)
+   
+create_gcs_bucket = GCSCreateBucketOperator(
+        task_id="create_bucket",
+        bucket_name=GCS_BUCKET,
+        project_id=GCP_PROJECT_ID
+    )
+
+create_dataset = BigQueryCreateEmptyDatasetOperator(
+        task_id="create_dataset", 
+        dataset_id="mahi_emp_ds"
+    )
+
+create_stg_table = BigQueryCreateEmptyTableOperator(
+        task_id="create_stg",
+        dataset_id=dataset_id,
+        table_id=TABLE1,
+        schema_fields=[
+            {"name": "EMPLOYEE_ID", "type": "STRING"},
+            {"name": "FIRST_NAME", "type": "STRING"},
+            {"name": "LAST_NAME", "type": "STRING"},
+            {"name": "EMAIL", "type": "STRING"},
+            {"name": "PHONE_NUMBER", "type": "STRING"},
+            {"name": "HIRE_DATE", "type": "STRING"},
+            {"name": "JOB_ID", "type": "STRING"},
+            {"name": "SALARY", "type": "STRING"},
+            {"name": "COMMISSION_PCT", "type": "STRING"},
+            {"name": "MANAGER_ID", "type": "STRING"},
+            {"name": "DEPARTMENT_ID", "type": "STRING"}
+        ],
+    )
+    
+create_his_table = BigQueryCreateEmptyTableOperator(
+        task_id="create_his",
+        dataset_id=dataset_id,
+        table_id=TABLE2,
+        schema_fields=[
+            {"name": "EMPLOYEE_ID", "type": "INT64"},
+            {"name": "FIRST_NAME", "type": "STRING"},
+            {"name": "LAST_NAME", "type": "STRING"},
+            {"name": "EMAIL", "type": "STRING"},
+            {"name": "PHONE_NUMBER", "type": "STRING"},
+            {"name": "HIRE_DATE", "type": "DATE"},
+            {"name": "JOB_ID", "type": "STRING"},
+            {"name": "SALARY", "type": "INT64"},
+            {"name": "COMMISSION_PCT", "type": "STRING"},
+            {"name": "MANAGER_ID", "type": "STRING"},
+            {"name": "DEPARTMENT_ID", "type": "INT64"}
+        ],
+    )
+    
+copy_single_file = GCSToGCSOperator(
+        task_id="copy_single_gcs_file",
+        source_bucket='mahi_1b',
+        source_object='Employee_table',
+        destination_bucket='mahi_emp_buk',
+        destination_object='employee_table.csv',
+        dag=dag
+    )
+        
+load_stage= bash_operator.BashOperator(
+       task_id='load',
+       bash_command='bq load --source_format=CSV --skip_leading_rows=1 mahi_emp_ds.mahi_emp_stg_t gs://mahi_emp_buk/employee_table.csv',
+       dag=dag
+    )
+load_history_file = bash_operator.BashOperator(
+       task_id='load_to_history',
+       bash_command = 'bq query --nouse_legacy_sql "insert into mahi_emp_ds.mahi_emp_his_t select safe_cast(EMPLOYEE_ID as INT64) as EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,safe_cast(HIRE_DATE as date) as HIRE_DATE,JOB_ID,SAFE(SALARY as INT64) as SALARY,COMMISSION_PCT,MANAGER_ID,safe_cast(DEPARTMENT_ID as INT64) as DEPARTMENT_ID from mahi_emp_ds.mahi_emp_stg_t"',
+       dag=dag
+    )
+    
+create_gcs_bucket >> copy_single_file >> create_dataset >> create_stg_table >>load_stage >> create_his_table >> load_history_file
+   
+   
+   
+   
