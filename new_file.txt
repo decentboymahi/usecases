@@ -1,0 +1,94 @@
+LEELA MOHAN GOLLU
+(GCP DATA ENGINEER)
+
+
+Email	     :- leelamohan11421@gmail.com
+Phone No :- 6305215944
+OBJECTIVE
+ 
+
+Looking for a challenging role in a reputable organization to utilize my technical, database, and management skills for the growth of the organization as well as to enhance my knowledge about new and emerging trends in the IT sector.
+
+CAREER SUMMARY
+ 
+	Possessing over 4.6+ years of Experience in the IT Industry as Data Engineer on Google Cloud Components.
+	Developed complex SQL queries to extract, transform, load and analyze data from various systems.
+	Experienced in using GCS, BigQuery datasets, Airflow/composer in GCP Environment SQL, SDK, Cloud Shell, Unix & BQ Commands.
+	Experience working with BigQuery datasets, tables, views and building pipelines to  ensuring proper data organization and accessibility for stakeholder.
+	Experience on Python language Scripting.
+	Good Knowledge of Big Data Technologies like Hadoop, Kafka.
+	Used GIT to manage and deploy the code version.
+	Working experience on Linux and Windows Environments. 
+	Good experience in all phases of Agile and participated in all Daily stand-up meetings with across Teams.
+TECHNICAL SKILLS
+ 
+
+	Cloud Platforms                : GCS, BigQuery, Airflow, DataProc, Databricks
+	ETL Tools                            : Apache Airflow, Dataflow, Kafka
+	Big data		     : Hadoop, Kafka
+	Programming Languages : SQL, Python (Scripting)
+	Operating Systems	     : Windows
+	Data Formats		     : CSV, JSON, XML, AVRO, PARQUET
+	Agile Methodologies	     : Sprint, Stand-up meeting, Jira
+Academic Qualification
+ 
+
+	Bachelor of Science (Computer Science) from Glocal Univercity – 2019
+Personal Traits
+ 
+
+	Problem-Solving abilities and resilience.
+	Professionalism & Strong work Ethics.
+	Good Analyzing Skills & Result Oriented Person.
+
+Current Organisation
+ 
+
+Organisation Name    : INPUTTAG SOFTWARE SOLUTION PVT LTD.,
+Duration		: _______ to Till Now
+
+
+PROJECTS
+
+Project-1
+Client : Bueno
+Duration :
+Technologies : GCP, BigQuery, SQL
+Role:
+POD Size :
+
+Description: Bueno is a software as a service (SaaS) company that helps businesses meet their sustainability goals by improving building systems. We uses cloud technology to analyze and collate data and applies algorithms that provide more efficient solutions.
+
+
+Responsibilities:
+
+
+
+
+
+
+
+Project-2
+Client : AB Tasty
+Duration :
+Technologies :
+Role:
+POD Size :
+
+Description:  It is a leading customer experience optimization SaaS provider, helping enterprise companies to understand their customers and act on that knowledge.We Empowers developers to create and test new features in Google Cloud Data stack instances without worrying about IT resources.
+
+Responsibilities:
+
+
+
+Project-3
+Client : Quantum Metric
+Duration :
+Technologies :
+Role:
+POD Size :
+
+Description:  Quantum Metric captures user behavior insights and uses machine intelligence to enable enterprises to meet their customer experience goals. To scale its products on demand and meet the security requirement of large enterprise customers, for analyze petabytes of data in seconds and also Cloud Hosting costs cut approximetly 50%
+Responsibilities:
+
+
